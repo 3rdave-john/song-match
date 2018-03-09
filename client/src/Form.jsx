@@ -1,31 +1,30 @@
 import React from 'react';
+// import axios from 'axios';
 
+/*eslint-disable*/
 class NameForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { value: '' };
+  nameRef = React.createRef();
+  emailRef = React.createRef();
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(event) {
-    this.setState({ value: event.target.value });
-  }
-
-  handleSubmit(event) {
-    alert(`A name was submitted: ${this.state.value}`);
+  createUser = event => {
+    // 1. stop the form from submitting
     event.preventDefault();
-  }
+    const user = {
+      name: this.nameRef.value.value,
+      email: this.emailRef.value.value
+    };
+    this.props.addUser(user);
+    // refresh the form
+    // calling "event.curentTarget" ==> will call the form itself <form></form>
+    // event.currentTarget.reset();
+  };
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label htmlFor="Name">
-            Name:
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
-        </label>
-        <input type="submit" value="Submit" />
+      <form className="form" onSubmit={this.createUser}>
+        <input name="name" ref={this.nameRef} type="text" placeholder="Name"/>
+        <input name="email" ref={this.emailRef} type="text" placeholder="Email"/>
+        <button type="submit">+ Create User </button>
       </form>
     );
   }
