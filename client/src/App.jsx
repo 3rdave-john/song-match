@@ -1,15 +1,20 @@
 import React from 'react';
 import './App.css';
 import Avatar from './Avatar';
+import Song from './Song';
 import NameForm from './Form';
-
-/*eslint-disable */
+import SampleSongs from './sample-songs';
+import Header from './Header';
+import Data from './Data';
 
 class App extends React.Component {
 // best to keep state based on whatever the shape of the value for example Arr, Obj, Num etc..
   state = {
-    users: {}
+    users: {},
+    songs: {}
   };
+// Anytime you create custom functions that update state.
+// You need to use the same component where our state lives.
   addUser = user => {
     console.log('hello world')
     // 1. Take a copy of the existing state
@@ -27,10 +32,22 @@ class App extends React.Component {
     // if your property and value === same, ES6 you can just pass {users} instead of {users : users}
   };
 
+  loadSampleSongs = () => {
+    this.setState({ songs: SampleSongs })
+  }
+
   render() {
     return (
       <div className="App">
-        <Avatar addUser={this.addUser} />
+        <div>
+          <Header />
+          <h1> Songs</h1>
+            <ul className="songs">
+            {Object.keys(this.state.songs).map(key => <Data key={key} details={this.state.songs[key]} />)}
+            </ul>
+        </div>
+        <Avatar />
+        <Song addUser={this.addUser} loadSampleSongs={this.loadSampleSongs}/>
       </div>
     );
   }
